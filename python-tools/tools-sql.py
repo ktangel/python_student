@@ -220,7 +220,10 @@ if __name__ == "__main__":
     # 处理文件中数据
     def jd_goods(goods):
         href, name, price, commit = goods
-        price = float(re.search(r"\d+\.\d+", price).group())
+        re_price = re.search(r"\d+(\.?\d+)", price)
+        if re_price:
+            price = float(re_price.group())
+
         ret = tuple([href, name, price, commit])
         return ret
 

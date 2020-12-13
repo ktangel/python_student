@@ -49,7 +49,7 @@ class CatchJD(object):
                 # 商品价格
                 price_txt = good.find_element_by_class_name(
                     'p-price').text.replace("\n", ":")
-                good_price = re.search(r"\d+", price_txt)
+                good_price = re.search(r"\d+(\.?\d+)", price_txt).group()
 
                 # 评价人数
                 good_commit = good.find_element_by_class_name(
@@ -60,9 +60,10 @@ class CatchJD(object):
                 # sql_valus.append(())
                 # with open('jd.txt', 'a', encoding='utf-8') as f:
                 #     f.write(good_content)
-                dp = [good_url, good_name, good_price, good_commit]
+                dp = (good_url, good_name, good_price, good_commit)
                 self.goods_list.append(dp)
 
+                # print(dp)
                 with open(f'{self.filename}.line.data', 'a', encoding='utf-8')as sql:
                     sql.write(json.dumps(dp) + '\n')
 
@@ -121,9 +122,9 @@ class CatchJD(object):
 
 
 if __name__ == '__main__':
-    url = 'https://search.jd.com/search?keyword=iPhone&qrst=1&wq=iPhone&shop=1&stock=1&stock=1&ev=exbrand_Apple%5E'
+    # url = 'https://search.jd.com/search?keyword=iPhone&qrst=1&wq=iPhone&shop=1&stock=1&stock=1&ev=exbrand_Apple%5E'
 
-    catchs = CatchJD(get=url)
+    catchs = CatchJD()
 
     driver = None
     # good_name = input('请输入爬取商品信息:').strip()
